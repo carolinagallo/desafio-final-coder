@@ -1,0 +1,194 @@
+paths:
+  /api/products/:
+    get:
+      summary: obtiene los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: los productos fueron obtenidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: los productos NO fueron obtenidos
+
+  /api/products/{pid}:
+    get:
+      summary: obtiene un producto
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se desea solicitar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el producto fue obtenido
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: el producto NO fue obtenido
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: elimina un producto
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se desea eliminar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el producto fue eliminado
+        "500":
+          description: el producto NO fue eliminado
+
+  /api/products/add/:
+    post:
+      security:
+        - bearerAuth: []
+      summary: agrega un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Products"
+      responses:
+        "200":
+          description: el producto fue obtenido
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: el producto NO fue obtenido
+
+  /api/products/update/{pid}:
+    put:
+      security:
+        - bearerAuth: []
+      summary: actualiza un producto
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se desea solicitar.
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Products"
+      responses:
+        "200":
+          description: el producto fue actualizado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  §ref: "#components/schemas/Products"
+        "500":
+          description: el producto NO fue actualizado
+
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        id:
+          type: Objectid
+          description: Id autogenerado de mongo
+        title:
+          type: String
+          description: titulo del producto
+        description:
+          type: String
+          description: descripcion del producto
+        price:
+          type: String
+          description: precio del producto
+        thumbnail:
+          type: String
+          description: imagen del producto.
+        code:
+          type: String
+          description: codigo del producto.
+        stock:
+          type: String
+          description: stock del producto.
+        category:
+          type: String
+          description: categoria del producto.
+      example:
+        id: ObjectId("645aacc9e35ba080f65d6979")
+        title: tonico
+        description: tonico nivea
+        price: 550
+        thumbnail: http://localhost:8084/img/tonico-nivea.jpeg
+        code: 8888
+        stock: 8434
+        category: cremas
+
+  requestBoodies:
+    addProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: titulo del producto
+        description:
+          type: String
+          description: descripcion del producto
+        price:
+          type: String
+          description: precio del producto
+        thumbnail:
+          type: String
+          description: imagen del producto.
+        code:
+          type: String
+          description: codigo del producto.
+        stock:
+          type: String
+          description: stock del producto.
+        category:
+          type: String
+          description: categoria del producto.
+      example:
+        title: tonico
+        description: tonico nivea
+        price: 550
+        thumbnail: http://localhost:8084/img/tonico-nivea.jpeg
+        code: 8888
+        stock: 8434
+        category: cremas
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

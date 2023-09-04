@@ -1,0 +1,258 @@
+paths:
+  /api/carts:
+    post:
+      summary: crea un carrito
+      tags:
+        - Carts
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Carts"
+      responses:
+        "200":
+          description: el carrito fue creado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: el carrito NO fue creado
+
+  /api/carts/{cid}:
+    get:
+      summary: obtiene un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que se desea solicitar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el carrito fue obtenido
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: el carrito NO fue obtenido
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: elimina un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que se desea eliminar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el carrito fue eliminado
+        "500":
+          description: el carrito NO fue eliminado
+
+    put:
+      security:
+        - bearerAuth: []
+      summary: actualiza un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que se desea actualizar.
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Carts"
+      responses:
+        "200":
+          description: el carrito fue actualizado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: el carrito NO fue actualizado
+
+  /api/carts/{cid}/product/{pid}:
+    post:
+      security:
+        - bearerAuth: []
+      summary: agrega un producto a un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que se desea solicitar.
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se desea agregar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el producto fue agregado al carrito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: el producto NO fue agregado al carrito
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: elimina un producto de un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que se desea solicitar.
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se desea eliminar.
+          schema:
+            $type: String
+
+      responses:
+        "200":
+          description: el prdocuto fue eliminado
+        "500":
+          description: el productos NO fue eliminado
+
+    put:
+      security:
+        - bearerAuth: []
+      summary: actualiza cantidad de un producto
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que se desea solicitar.
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: id del producto que se desea modificar.
+          schema:
+            $type: String
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+                  description: cantidad del producto
+      responses:
+        "200":
+          description: el producto fue actualizado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: el producto NO fue actualizado
+
+  /api/carts/{cid}/purchase:
+    post:
+      security:
+        - bearerAuth: []
+      summary: finaliza compra de un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del carrito que se desea solicitar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: la compra fue realizada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: la compra NO fue realizada
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: Objectid
+          description: Id del producto
+        quantity:
+          type: number
+          description: cantidad del producto
+
+    Carts:
+      type: object
+      properties:
+        cart_id:
+          type: Objectid
+          description: ID para el carrito
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+
+      example:
+        cart_id: "645aacc9e35ba080f65d6980"
+        products:
+          - _id: "645aacc9e35ba080f65d6979"
+            quantity: "tónico"
+          - _id: "645aacc9e35ba080f65d6981"
+            quantity: "crema facial"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
