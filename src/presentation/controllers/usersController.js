@@ -3,6 +3,8 @@ import userUpdateValidation from "../../domain/validations/user/userUpdateValida
 import userCreateValidation from "../../domain/validations/user/userCreateValidations.js";
 import { createHash } from "../../shared/index.js";
 import moment from "moment";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const list =
   ("/",
@@ -125,7 +127,7 @@ export const addDocuments =
     try {
       const { id } = req.params;
       const data = req.body;
-      const archive = `http://localhost:8084/${req.file.path.replace(
+      const archive = `${process.env.URL_IMAGE}/${req.file.path.replace(
         "public/",
         ""
       )}`;

@@ -14,12 +14,5 @@ const cartSchema = new mongoose.Schema({
   ],
 });
 
-//cartSchema.pre("findOne", function () {
-//  this.populate("products._id");
-//});
-//
-//cartSchema.pre("find", function () {
-//  this.populate("products._id");
-//});
 
 export const cartModel = mongoose.model(cartCollection, cartSchema);

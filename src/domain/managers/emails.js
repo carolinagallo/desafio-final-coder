@@ -23,7 +23,7 @@ class EmailManager {
 
     const token = await generateToken({ email });
 
-    const link_generado = `http://localhost:8084/api/email/formChangePassword?token=${token}`;
+    const link_generado = `${process.env.URL_IMAGE}/api/email/formChangePassword?token=${token}`;
 
     const templatePath = resolve(`src/presentation/views/${templateFile}`);
     const source = fs.readFileSync(templatePath).toString();

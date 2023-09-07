@@ -1,4 +1,6 @@
 import ProductManager from "../../domain/managers/products.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const getAllProducts =
   ("/",
@@ -63,7 +65,7 @@ export const uploaderProduct =
         throw new Error("Could not save image");
       }
 
-      const img = `http://localhost:8084/${req.file.path.replace(
+      const img = `${process.env.URL_IMAGE}/${req.file.path.replace(
         "public/",
         ""
       )}`;

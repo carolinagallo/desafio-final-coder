@@ -28,6 +28,6 @@ router.put(
   authorization("updateOneProduct"),
   updateOneProduct
 );
-router.delete("/delete/:pid", auth, authorization("deleteyId"), deleteById);
+router.delete("/delete/:pid", auth, authorization("deleteId"), deleteById);
 
 export default router;

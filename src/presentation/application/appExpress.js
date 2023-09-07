@@ -70,7 +70,7 @@ class AppExpress {
     );
 
     cron.schedule("0 */48 * * *", async () => {
-      fetch(`${PROCESS.ENV.INACTIVITY_ENDPOINT}:8084/api/users/inactividad`, {
+      fetch(`${PROCESS.ENV.INACTIVITY_ENDPOINT}/api/users/inactividad`, {
         method: "DELETE",
       })
         .then(() => {
