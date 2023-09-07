@@ -1,0 +1,154 @@
+paths:
+  /api/roles:
+    get:
+      security:
+        - bearerAuth: []
+      summary: obtiene los roles
+      tags:
+        - Roles
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            default: 10
+            description: cantidad de resultados por pagina
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            description: numero de pagina
+      responses:
+        "200":
+          description: los roles fueron obtenidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Roles"
+        "500":
+          description: los roles NO fueron obtenidos
+    post:
+      security:
+        - bearerAuth: []
+      summary: agrega un rol
+      tags:
+        - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Roles"
+      responses:
+        "200":
+          description: el rol fue obtenido
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Roles"
+        "500":
+          description: el rol NO fue obtenido
+
+  /api/roles/{pid}:
+    get:
+      security:
+        - bearerAuth: []
+      summary: obtiene un rol
+      tags:
+        - Roles
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del rol que se desea solicitar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el rol fue obtenido
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Roles"
+        "500":
+          description: el rol NO fue obtenido
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: elimina un rol
+      tags:
+        - Roles
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del rol que se desea eliminar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el rol fue eliminado
+        "500":
+          description: el rol NO fue eliminado
+
+    put:
+      security:
+        - bearerAuth: []
+      summary: actualiza un rol
+      tags:
+        - Roles
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: id del rol que se desea solicitar.
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Roles"
+      responses:
+        "200":
+          description: el rol fue actualizado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  §ref: "#components/schemas/Roles"
+        "500":
+          description: el rol NO fue actualizado
+
+components:
+  schemas:
+    Roles:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre para el rol
+        permissions:
+          type: array
+          description: Permisos
+
+      example:
+        name: "rolNew"
+        permissions: ["getUsers", "saveUser"]
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

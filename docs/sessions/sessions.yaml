@@ -1,0 +1,135 @@
+paths:
+  /api/sessions/login:
+    post:
+      summary: Inicia sesion
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Sessions"
+      responses:
+        "200":
+          description: Se inicio sesion correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Sessions"
+        "500":
+          description: No se inicio sesion
+
+  /api/sessions/signup:
+    post:
+      summary: Crear usuario
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Signup"
+      responses:
+        "200":
+          description: Se inicio sesion correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Signup"
+        "500":
+          description: No se inicio sesion
+
+  /api/sessions/current:
+    get:
+      security:
+        - bearerAuth: []
+      summary: Current
+      tags:
+        - Sessions
+      responses:
+        "200":
+          description: Se realizo el current exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Signup"
+        "500":
+          description: No se pudo realizar el current
+
+  /api/sessions/logout/{uid}:
+    delete:
+      summary: cerrar sesion
+      tags:
+        - Sessions
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id de la sesion que se desea eliminar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: la sesion fue eliminada
+        "500":
+          description: la sesion NO fue eliminada
+components:
+  schemas:
+    Signup:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: firstName
+        lastName:
+          type: string
+          description: lastName
+        age:
+          type: number
+          description: age
+        email:
+          type: string
+          description: email
+        role:
+          type: string
+          description: role
+        password:
+          type: string
+          description: password
+        cart:
+          type: string
+          description: cart
+      example:
+        firstName: "martina"
+        lastName: "lopez"
+        age: 20
+        email: "martinalopez@coder.com"
+        role: "6477bdc5bf7bff413f8d2df2"
+        password: "12345"
+        cart: "64c96fc0777c152b9c754672"
+    Sessions:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email
+        password:
+          type: string
+          description: Password
+
+      example:
+        email: "rolNew"
+        password: "12345"
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

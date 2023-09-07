@@ -1,0 +1,241 @@
+paths:
+  /api/users:
+    get:
+      security:
+        - bearerAuth: []
+      summary: obtiene los users
+      tags:
+        - Users
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            default: 10
+            description: cantidad de resultados por pagina
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            description: numero de pagina
+      responses:
+        "200":
+          description: los users fueron obtenidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#components/schemas/Users"
+                      description: "lista de usuarios"
+        "500":
+          description: los users NO fueron obtenidos
+
+    post:
+      security:
+        - bearerAuth: []
+      summary: crea un usuario
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Users"
+      responses:
+        "200":
+          description: el user fue creado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Users"
+        "500":
+          description: el user NO fue creado
+
+  /api/users/{uid}:
+    put:
+      security:
+        - bearerAuth: []
+      summary: actualiza un usuario
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea solicitar.
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/Users"
+      responses:
+        "200":
+          description: el usuario fue actualizado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  §ref: "#components/schemas/Users"
+        "500":
+          description: el usuario NO fue actualizado
+
+    get:
+      security:
+        - bearerAuth: []
+      summary: obtiene un usuario
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea solicitar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el usuario fue obtenido
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Users"
+        "500":
+          description: el usuario NO fue obtenido
+
+    delete:
+      security:
+        - bearerAuth: []
+      summary: elimina un usuario
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea eliminar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el usuario fue eliminado
+        "500":
+          description: el usuario NO fue eliminado
+
+  /api/users/premium/{uid}:
+    put:
+      security:
+        - bearerAuth: []
+      summary: actualiza el rol del usuario
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea solicitar.
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: el rol del usuario fue actualizado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  §ref: "#components/schemas/Users"
+        "500":
+          description: el rol del usuario NO fue actualizado
+
+  /api/users/{uid}/documents:
+    post:
+      security:
+        - bearerAuth: []
+      summary: agregar documentos al usuario
+      content:
+        - multipart/form-data
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: id del usuario que se desea solicitar.
+          schema:
+            $type: String
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#components/schemas/Documents"
+      responses:
+        "200":
+          description: el doc fue guardado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Users"
+        "500":
+          description: el user NO fue creado
+
+components:
+  schemas:
+    Documents:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre para el usuario
+        reference:
+          type: file
+          description: Apellido para el usuario
+    Users:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: Nombre para el usuario
+        lastName:
+          type: string
+          description: Apellido para el usuario
+        email:
+          type: string
+          description: Email para el usuario
+        age:
+          type: number
+          description: Edad para el usuario
+        role:
+          type: Objectid
+          description: Rol para el usuario
+        password:
+          type: string
+          description: Password para el usuario
+      example:
+        firstName: "Juan"
+        lastName: "Garcia"
+        email: "juangarcia@gmail.com"
+        age: 41
+        role: "4545454545"
+        password: "12345"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

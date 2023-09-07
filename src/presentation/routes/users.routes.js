@@ -24,5 +24,4 @@ userRouter.put("/premium/:id", auth, authorization("updateRol"), updateRol);
 userRouter.post("/:id/documents", uploader.single("reference"), addDocuments);
 userRouter.delete("/:id", auth, authorization("deleteUser"), deleteOne);
 
-//, auth, authorization("updateRol")
 export default userRouter;

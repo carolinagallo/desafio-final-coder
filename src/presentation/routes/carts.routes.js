@@ -14,7 +14,7 @@ import authorization from "../middlewares/authorization.js";
 
 const router = Router();
 
-router.post("/", createCart);
+router.post("/", auth, createCart);
 router.get("/:cid", findCartById);
 router.post(
   "/:cid/product/:pid",

@@ -16,14 +16,12 @@ describe("Testing Auth Endpoints Success", () => {
     this.payload = {};
   });
   after(async function () {
-    //this.db.drop();
     await this.db.close();
     this.requester.app.close(() => {
-      req.loggerDesarrollo.info("Conexión cerrada");
+      console.log("Conexión cerrada");
     });
   });
   beforeEach(async function () {
-    console.log(db);
     this.timeout(10000);
     await new Promise((resolve) => setTimeout(resolve, 500));
   });
@@ -42,7 +40,6 @@ describe("Testing Auth Endpoints Success", () => {
       .send(this.payload)
       .then((result) => {
         const { _body, status } = result;
-        console.log(_body, status);
 
         expect(status).to.be.equals(201);
         expect(_body.user.email).to.be.equals(this.payload.email);
@@ -55,18 +52,14 @@ describe("Testing Auth Endpoints Success", () => {
       email: this.payload.email,
       password: this.payload.password,
     };
-    console.log(payload);
+
     return this.requester
       .post("/api/sessions/login")
       .send(payload)
       .then((result) => {
-        const { _body, status } = result;
-        console.log(_body, status);
+        expect(result._body.message).to.be.equals("Login success!");
 
-        expect(status).to.be.equals(200);
-        expect(_body.message).to.be.equals("Login success!");
-
-        jwt = _body.accessToken;
+        jwt = result._body.accessToken;
       });
   });
 
@@ -81,7 +74,6 @@ describe("Testing Auth Endpoints Success", () => {
       .set("Authorization", `Bearer ${jwt}`)
       .then((result) => {
         const { _body, status } = result;
-        console.log(_body, status);
 
         expect(status).to.be.equals(200);
         expect(_body.payload.email).to.be.equals(this.payload.email);

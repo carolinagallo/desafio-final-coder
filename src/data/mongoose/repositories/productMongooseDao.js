@@ -56,7 +56,6 @@ class ProductMongooseRepository {
     });
   }
 
-  //método auxiliar
   async getByCode(productCode) {
     const product = await productModel.findOne({ code: productCode });
     return product;

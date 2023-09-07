@@ -34,14 +34,14 @@ export const createCart =
 
     data.products = extistingProducts;
 
-    const user = req.body.user;
+    const user = req.user;
     if (!user) {
       return res.status(404).send(`User is required`);
     }
 
     const newCart = await cartManager.addCart(data);
 
-    await userManager.updateOne(user._id, { cart: newCart._id });
+    await userManager.updateOne(user.id, { cart: newCart._id });
 
     res.send(newCart);
   });

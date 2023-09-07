@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./src/index.js",
   "scripts": {
-    "test": "mocha src/tests/product.test.js",
+    "test": "mocha src/tests.js",
     "dev": "nodemon ./src/index.js",
     "start": "nodemon ./src/index.js"
   },

@@ -21,6 +21,7 @@ export const list =
         docs: undefined,
       });
     } catch (e) {
+      res.status(404).send(error.message);
       next(e);
     }
   });
@@ -37,6 +38,7 @@ export const getOne =
 
       res.send({ status: "success", user });
     } catch (e) {
+      res.status(404).send(error.message);
       next(e);
     }
   });
@@ -57,6 +59,7 @@ export const save =
 
       res.send({ status: "success", user, massage: "user created" });
     } catch (e) {
+      res.status(404).send(error.message);
       next(e);
     }
   });
@@ -76,6 +79,7 @@ export const update =
 
       res.send({ status: "success", user, massage: "user updated" });
     } catch (e) {
+      res.status(404).send(error.message);
       next(e);
     }
   });
@@ -92,6 +96,7 @@ export const deleteOne =
 
       res.send({ status: "success", massage: "user deleted" });
     } catch (e) {
+      res.status(404).send(error.message);
       next(e);
     }
   });
@@ -110,6 +115,7 @@ export const updateRol =
       res.send({ status: "success", userUpdated, massage: "user updated" });
     } catch (e) {
       res.status(404).send(e.message);
+      next(e);
     }
   });
 
@@ -131,6 +137,8 @@ export const addDocuments =
 
       res.send({ status: "success", user, massage: "document uploader" });
     } catch (e) {
+      console.log(e);
+      res.status(404).send(error.message);
       next(e);
     }
   });
@@ -152,6 +160,7 @@ export const deleteForInactivity =
       }
       res.send({ status: "success", massage: "users geted" });
     } catch (e) {
+      res.status(404).send(error.message);
       next(e);
     }
   });

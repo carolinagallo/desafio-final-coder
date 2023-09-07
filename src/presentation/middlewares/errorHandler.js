@@ -8,6 +8,7 @@ const errorHandler = (err, req, res, next) => {
 
     return res.status(400).json({ message: err.issues });
   }
+
   req.loggerProduccion.error(err.stack);
 
   res.status(500).json({ message: "Ocurrió un error" });

@@ -9,7 +9,6 @@ const authorization = (permission) => {
 
     if (cid) {
       if (user.cart._id != cid) {
-        console.log("el acrrito es tuyo!");
         return res
           .status(401)
           .send({ message: "Not authorization for add products" });

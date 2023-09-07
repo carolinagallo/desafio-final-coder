@@ -1,7 +1,6 @@
 import express from "express";
 import { engine } from "express-handlebars";
 import session from "express-session";
-//import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import compression from "express-compression";
 import swaggerJsdoc from "swagger-jsdoc";
@@ -9,6 +8,8 @@ import SwaggerUiExpress from "swagger-ui-express";
 import "express-async-errors";
 import cron from "node-cron";
 import fetch from "node-fetch";
+import dotenv from "dotenv";
+dotenv.config();
 
 import productsRouter from "../routes/products.routes.js";
 import cartsRouter from "../routes/carts.routes.js";
@@ -69,7 +70,7 @@ class AppExpress {
     );
 
     cron.schedule("0 */48 * * *", async () => {
-      fetch("http://localhost:8084/api/users/inactividad", {
+      fetch(`${PROCESS.ENV.INACTIVITY_ENDPOINT}:8084/api/users/inactividad`, {
         method: "DELETE",
       })
         .then(() => {
@@ -106,26 +107,5 @@ class AppExpress {
     return this.server;
   }
 }
-
-/*
-const productManager = new ProductManager();
-
-// <<< EL HTTPSERVER NO SE COMO UBICARLO >>>
-
-const socketServer = new Server(httpServer);
-socketServer.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado");
-
-  socket.on("add", async (data) => {
-    await productManager.addProduct(data);
-    socket.emit("newList", await productManager.getProducts());
-  });
-
-  socket.on("delete", async (data) => {
-    await productManager.deleteProduct(data);
-    socket.emit("deleteProduct", await productManager.getProducts());
-  });
-});
-*/
 
 export default AppExpress;
